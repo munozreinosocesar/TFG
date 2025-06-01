@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Plataforma Ecommerce</title>
+    <link rel="stylesheet" th:href="@{/estilos.css}" />
+    <style>
+        main {
+            padding: 2rem;
+        }
+
+        .usuario-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1rem 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .usuario-info {
+            flex: 1;
+        }
+
+        .usuario-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .text-muted {
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Plataforma Ecommerce</h1>
+        <nav>
+            <ul>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/1/productos(tenant=${tenant})}">Productos</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/usuarios(tenant=${tenant})}">Usuarios</a>
+                </li>    
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/form(tenant=${tenant})}">Añadir productos</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/form_usuarios(tenant=${tenant})}">Añadir usuarios</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()">
+                    <a href="#" th:href="@{/login}">Iniciar sesión</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="btn" type="submit">Cerrar sesión</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Lista de Usuarios</h2>
+        <ul>
+            <li th:each="usuario : ${allUsers}" class="usuario-item">
+                <div class="usuario-info">
+                    <span th:text="${usuario.nombre}">Nombre</span> -
+                    <span th:text="${usuario.apellido}">Apellido</span> -
+                    <span th:text="${usuario.email}">Email</span>
+                    <div th:if="${usuario.direccion != null}">
+                        <span th:text="'📍 ' + ${usuario.direccion.calle} + ', ' + ${usuario.direccion.ciudad} + ', ' + ${usuario.direccion.pais}">Dirección</span><br>
+                        <span th:text="'Código Postal: ' + ${usuario.direccion.codigoPostal}"></span>
+                    </div>
+                    <div th:if="${usuario.direccion == null}">
+                        <span class="text-muted">📍 No tiene dirección registrada</span>
+                    </div>
+                </div>
+                <div class="usuario-actions" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <form th:action="@{/usuarios/{tenant}/delete/{id}(tenant=${tenant},id=${usuario.id})}" method="post">
+                        <button class="btn" type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">
+                            Eliminar
+                        </button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </main>
+</body>
+</html>

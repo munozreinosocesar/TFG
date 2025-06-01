@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+	<parameters>
+		<events>
+			<event>
+				<start>00:00:00</start>
+				<repeat>00:03:00</repeat>							
+				<stopAfter>00:19:00</stopAfter>						   						
+				<firstTenantID>1</firstTenantID>						
+				<tenantsPerExecution>2</tenantsPerExecution>			
+				<tenantIdIncrement>1</tenantIdIncrement>		
+				<actions>execute</actions>					
+				<configFile>experiments/variation_workload_exec_ecommerce/exec/config.xml</configFile>
+				<benchmark>ecommerce</benchmark>
+			</event>
+		</events>
+	</parameters>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+	<parameters>
+		<events>
+			<event>
+				<start>00:02:00</start>
+				<repeat>00:02:00</repeat>
+				<stopAfter>00:10:00</stopAfter>
+				<actions>execute</actions>					
+				<configFile>experiments/constant_load_exec_ecommerce_neon/exec/config.xml</configFile>
+				<benchmark>ecommerce</benchmark>
+			</event>
+		</events>
+	</parameters>

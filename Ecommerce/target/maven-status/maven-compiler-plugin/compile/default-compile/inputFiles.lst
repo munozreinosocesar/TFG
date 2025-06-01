@@ -1,0 +1,15 @@
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\CarritoApplication.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\controladores\AdminController.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\controladores\CarritoController.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\controladores\CarritoRestController.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\controladores\ProductController.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\controladores\ProductRestController.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\controladores\UriController.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\controladores\UriRestController.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\entidades\Producto.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\repositorios\ProductRepo.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\SecurityConfig.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\servicios\CarritoService.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\servicios\DatabaseExportService.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\servicios\ProductService.java
+G:\Dropbox\miscelanea\ProyectosInformaticos\TFGs\2022-GIIM\CesarMunozReinoso-MedidadecalidaddeservicioenSGBD\software\SpringShopping\carrito\src\main\java\com\dss\carrito\ServletInitializer.java

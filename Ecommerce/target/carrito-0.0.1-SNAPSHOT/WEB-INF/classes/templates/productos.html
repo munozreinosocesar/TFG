@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de productos</title>
+    <link rel="stylesheet" th:href="@{/estilos.css}" />
+</head>
+<body>
+    <header>
+        <h1>Mi Tienda Online</h1>
+        <nav>
+            <ul>
+                <li><a href="#" th:href="@{/productos}">Productos</a></li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a href="#" th:href="@{/form/producto}">Añadir productos</a></li>
+                <li th:if="${#authorization.expression('hasRole(''USER'')') or #authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/cart}">Ver carrito</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()"><a href="#" th:href="@{/login}">Iniciar sesión</a></li>
+                <li>
+                    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                        <button class="btn" type="submit"> Cerrar sesión </button>
+                    </form>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <form th:action="@{/export}" method="get">
+                        <button class="btn" type="submit"> Exportar BD </button>
+                    </form>
+                </li>
+<!--                <li sec:authorize="isAuthenticated()"><a href="#" th:action="@{/logout}" method="post" th:href="@{/logout}">Cerrar sesión</a></li>-->
+<!--                <li><a href="#" th:href="@{/login}">Iniciar sesión</a></li>-->
+                <!--            <li><a href="#" th:href="@{/}">Carrito</a></li>-->
+            </ul>
+        </nav>
+    </header>
+        <span>Lista de productos</span>
+        <ul>
+            <li th:each="producto : ${allProductos}">
+                <span th:text="${producto.name}">Nombre Producto</span>
+                <span th:text="${producto.price}">Precio Producto</span>
+
+                <form th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:action="@{/api/products/delete/{id}(id=${producto.id})}" method="post" style="display:inline;">
+                    <button class="btn" type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">Eliminar</button>
+                </form>
+
+<!--                <form th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:action="@{/form/producto?edit=true}" th:object="${producto}" method="post" style="display:inline;">-->
+<!--                    <button class="btn" type="submit">Editar</button>-->
+<!--                </form>-->
+
+                <form sec:authorize="isAuthenticated()" th:action="@{/cart}" th:object="${product}" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${producto.id}" />
+                    <input type="hidden" name="name" th:value="${producto.name}" />
+                    <input type="hidden" name="price" th:value="${producto.price}" />
+                    <button class="btn" type="submit">Añadir al carrito</button>
+                </form>
+            </li>
+        </ul>
+    </body>
+</html>

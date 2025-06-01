@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Plataforma Ecommerce</title>
+    <link rel="stylesheet" th:href="@{/estilos.css}" />
+    <style>
+        main {
+            padding: 2rem;
+        }
+
+        form input, form button {
+            display: block;
+            margin: 0.5rem 0;
+            padding: 0.4rem;
+        }
+
+        .btn {
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Plataforma Ecommerce</h1>
+        <nav>
+            <ul>
+                <li th:if="${#authorization.expression('hasRole(''USER'')') or #authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/1/productos(tenant=${tenant})}">Productos</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/usuarios(tenant=${tenant})}">Usuarios</a>
+                </li>               
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/form(tenant=${tenant})}">Añadir productos</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/form_usuarios(tenant=${tenant})}">Añadir usuarios</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}">
+                    <a href="#" th:href="@{/{tenant}/cart(tenant=${tenant})}">Ver carrito</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()">
+                    <a href="#" th:href="@{/login}">Iniciar sesión</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="btn" type="submit">Cerrar sesión</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Gestionar producto</h2>
+        <form th:action="@{/productos/{tenant}(tenant=${tenant})}" th:object="${producto}" method="post">
+            <input type="text" name="name" placeholder="Nombre del producto" required>
+            <input type="number" step="0.1" name="price" placeholder="Precio del producto" required>
+            <input type="hidden" name="tenant" th:value="${tenant}" />
+            <button class="btn" type="submit">Añadir</button>
+        </form>
+    </main>
+</body>
+</html>

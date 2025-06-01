@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar productos</title>
+    <link rel="stylesheet" th:href="@{/estilos.css}" />
+
+</head>
+<body>
+    <header>
+        <h1>Mi Tienda Online</h1>
+        <nav>
+            <ul>
+                <li><a href="#" th:href="@{/productos}">Productos</a></li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a href="#" th:href="@{/form/producto}">Añadir productos</a></li>
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}"><a href="#" th:href="@{/cart}">Ver carrito</a></li>
+                <li sec:authorize="!isAuthenticated()"><a href="#" th:href="@{/login}">Iniciar sesión</a></li>
+                <li>
+                    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                        <button class="btn" type="submit"> Cerrar sesión </button>
+                    </form>
+                </li>
+                <!--                <li sec:authorize="isAuthenticated()"><a href="#" th:action="@{/logout}" method="post" th:href="@{/logout}">Cerrar sesión</a></li>-->
+                <!--                <li><a href="#" th:href="@{/login}">Iniciar sesión</a></li>-->
+                <!--            <li><a href="#" th:href="@{/}">Carrito</a></li>-->
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <p>Gestionar producto</p>
+        <form th:action="@{/products}" th:object="${product}" method="post" style="display:inline;">
+            <!--            <input type="text" name="name" placeholder="Nombre del producto" required>-->
+            <input type="text" name="name" placeholder="Nombre del producto" required>
+            <input type="number" step="0.1" name="price" placeholder="Precio del producto" required>
+            <button type="submit">Añadir</button>
+        </form>
+
+<!--        <form th:if="${#request.getParameter('edit') != null}" th:action="@{/api/products/update/{id}(id=${producto.id})}" th:object="${product}" method="post" style="display:inline;">-->
+<!--            &lt;!&ndash;            <input type="text" name="name" placeholder="Nombre del producto" required>&ndash;&gt;-->
+<!--            <input type="text" name="name" placeholder="Nombre del producto" th:value="@{prev_product.name}" required>-->
+<!--            <input type="number" name="price" placeholder="Precio del producto" th:value="@{prev_product.price}" required>-->
+<!--            <button type="submit">Editar producto <span th:text="@{prev_product.id}"></span>>"</button>-->
+<!--        </form>-->
+    </main>
+</body>
+</html>

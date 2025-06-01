@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Plataforma Ecommerce</title>
+    <link rel="stylesheet" th:href="@{/estilos.css}" />
+</head>
+<body>
+    <header>
+        <h1>Plataforma Ecommerce</h1>
+        <nav>
+            <ul>
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}">
+                    <a href="#" th:href="@{/{tenant}/{usuario}/productos(tenant=${tenant}, usuario=${usuario})}">Productos</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}">
+                    <a href="#" th:href="@{/{tenant}/{usuario}/cart(tenant=${tenant}, usuario=${usuario})}">Ver carrito</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()">
+                    <a href="#" th:href="@{/login}">Iniciar sesión</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="btn" type="submit">Cerrar sesión</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Detalles del Pedido</h2>
+
+        <p th:if="${error}" class="error" th:text="${error}"></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="producto : ${productosCarrito}">
+                    <td th:text="${producto.name}">Nombre Producto</td>
+                    <td th:text="${producto.price}">Precio Producto</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Total: <span th:text="${total}">0.00</span> €</h3>
+
+        <form th:action="@{/pedidos/{tenant}/{usuario}(tenant=${tenant}, usuario=${usuario})}" method="post">
+
+            <label for="metodoPago">Método de Pago:</label>
+            <select id="metodoPago" name="metodoPago" required>
+                <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
+                <option value="PayPal">PayPal</option>
+                <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+            </select>
+
+            <input type="hidden" name="monto" th:value="${total}" />
+            
+            <button type="submit">Confirmar Pedido</button>
+        </form>
+    </main>
+</body>
+</html>

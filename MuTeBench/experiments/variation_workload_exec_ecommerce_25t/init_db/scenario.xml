@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+	<parameters>
+		<events>
+			<event>														   						
+				<firstTenantID>1</firstTenantID>						
+				<tenantsPerExecution>14</tenantsPerExecution>			
+				<tenantIdIncrement>1</tenantIdIncrement>				
+				<actions>create,load</actions>
+				<configFile>experiments/variation_workload_exec_ecommerce_25t/init_db/config.xml</configFile>
+				<benchmark>ecommerce</benchmark>
+			</event>
+		</events>
+	</parameters>

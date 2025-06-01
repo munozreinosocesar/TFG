@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de productos</title>
+    <link rel="stylesheet" th:href="@{/estilos.css}" />
+</head>
+<body>
+    <header>
+        <h1>Mi Tienda Online</h1>
+        <nav>
+            <ul>
+                <li><a href="#" th:href="@{/productos}">Productos</a></li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a href="#" th:href="@{/form/producto}">Añadir productos</a></li>
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}"><a href="#" th:href="@{/cart}">Ver carrito</a></li>
+                <li sec:authorize="!isAuthenticated()"><a href="#" th:href="@{/login}">Iniciar sesión</a></li>
+                <li>
+                    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                        <button class="btn" type="submit"> Cerrar sesión </button>
+                    </form>
+                </li>
+                <!--                <li sec:authorize="isAuthenticated()"><a href="#" th:action="@{/logout}" method="post" th:href="@{/logout}">Cerrar sesión</a></li>-->
+                <!--                <li><a href="#" th:href="@{/login}">Iniciar sesión</a></li>-->
+                <!--            <li><a href="#" th:href="@{/}">Carrito</a></li>-->
+            </ul>
+        </nav>
+    </header>
+    Productos de mi carrito
+    <form th:action="@{/cart/checkout}" method="post" style="display:inline;">
+        <button class="btn" type="submit" onclick="return confirm('¿Estás seguro de que deseas realizar la compra?');">Comprar por <span th:text="${total_price}">$</span></button>
+    </form>
+
+    <ul>
+        <li th:each="producto : ${allProductos}">
+            <span th:text="${producto.name}">Nombre Producto</span>
+            <span th:text="${producto.price}">Precio Producto</span>
+            <form th:action="@{cart/delete/{id}(id=${producto.id})}" method="post" style="display:inline;">
+                <button class="btn" type="submit" onclick="return confirm('¿Estás seguro de que deseas quitar este producto del carrito?');">Eliminar</button>
+            </form>
+
+        </li>
+    </ul>
+    </body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Plataforma Ecommerce</title>
+    <link rel="stylesheet" th:href="@{/estilos.css}" />
+    <style>
+        main {
+            padding: 2rem;
+        }
+
+        .producto-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .producto-info {
+            flex: 1;
+        }
+
+        .producto-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.3rem 0.6rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Plataforma Ecommerce</h1>
+        <nav>
+            <ul>
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}">
+                    <a href="#" th:href="@{/{tenant}/{usuario}/productos(tenant=${tenant}, usuario=${usuario})}">Productos</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/1/productos(tenant=${tenant})}">Productos</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/usuarios(tenant=${tenant})}">Usuarios</a>
+                </li>               
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/form(tenant=${tenant})}">Añadir productos</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/form_usuarios(tenant=${tenant})}">Añadir usuarios</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}">
+                    <a href="#" th:href="@{/{tenant}/{usuario}/cart(tenant=${tenant}, usuario=${usuario})}">Ver carrito</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}">
+                    <a href="#" th:href="@{/{tenant}/{usuario}/pagos(tenant=${tenant}, usuario=${usuario})}">Mis pagos</a>
+                </li>           
+                <li sec:authorize="!isAuthenticated()">
+                    <a href="#" th:href="@{/login}">Iniciar sesión</a>
+                </li>
+                <li>
+                    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                        <button class="btn" type="submit">Cerrar sesión</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Lista de Productos</h2>
+        <ul>
+            <li th:each="producto : ${allProductos}" class="producto-item">
+                <div class="producto-info">
+                    <span th:text="${producto.name}">Nombre Producto</span> -
+                    <span th:text="${producto.price}">Precio Producto</span>
+                </div>
+                <div class="producto-actions">
+                    <form th:if="${#authorization.expression('hasRole(''ADMIN'')')}" 
+                        th:action="@{/productos/{tenant}/{usuario}/delete/{id}(tenant=${tenant}, usuario=${usuario}, id=${producto.id})}" 
+                        method="post" style="display:inline;">
+                        <button class="btn" type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">
+                            Eliminar
+                        </button>
+                    </form>
+
+                    <form sec:authorize="${#authorization.expression('hasRole(''USER'')')}" 
+                        th:action="@{/cart/{tenant}/{usuario}(tenant=${tenant}, usuario=${usuario})}" 
+                        th:object="${producto}" method="post" style="display:inline;">
+                        <input type="hidden" name="id" th:value="${producto.id}" />
+                        <input type="hidden" name="name" th:value="${producto.name}" />
+                        <input type="hidden" name="price" th:value="${producto.price}" />
+                        <button class="btn" type="submit">Añadir al carrito</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </main>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Plataforma Ecommerce</title>
+    <link rel="stylesheet" th:href="@{/estilos.css}" />
+    <style>
+        main {
+            padding: 2rem;
+        }
+
+        .pago-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .pago-info {
+            flex: 1;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Plataforma Ecommerce</h1>
+        <nav>
+            <ul>
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}">
+                    <a href="#" th:href="@{/{tenant}/{usuario}/productos(tenant=${tenant}, usuario=${usuario})}">Productos</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/1/productos(tenant=${tenant})}">Productos</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/usuarios(tenant=${tenant})}">Usuarios</a>
+                </li>                
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/form(tenant=${tenant})}">Añadir productos</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a href="#" th:href="@{/{tenant}/form_usuarios(tenant=${tenant})}">Añadir usuarios</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}">
+                    <a href="#" th:href="@{/{tenant}/{usuario}/cart(tenant=${tenant}, usuario=${usuario})}">Ver carrito</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}">
+                    <a href="#" th:href="@{/{tenant}/{usuario}/pagos(tenant=${tenant}, usuario=${usuario})}">Mis pagos</a>
+                </li>           
+                <li sec:authorize="!isAuthenticated()">
+                    <a href="#" th:href="@{/login}">Iniciar sesión</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="btn" type="submit">Cerrar sesión</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Lista de Pagos</h2>
+        <ul>
+            <li th:each="pago : ${listaPagos}" class="pago-item">
+                <div class="pago-info">
+                    <span th:text="${pago.monto}">Monto</span> -
+                    <span th:text="${pago.metodoPago}">Método de Pago</span> -
+                    <span th:text="${pago.fecha}">Fecha</span>
+                </div>
+            </li>
+        </ul>
+    </main>
+</body>
+</html>

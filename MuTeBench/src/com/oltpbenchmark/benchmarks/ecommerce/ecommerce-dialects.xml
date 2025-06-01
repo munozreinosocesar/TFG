@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<dialects>
+    <dialect type="POSTGRES">
+        <procedure name="AddToCart">
+            <statement name="insertCarritoProducto">
+                INSERT INTO carrito_productos (carrito_id, producto_id) VALUES (?, ?)
+            </statement>
+        </procedure>
+        
+        <procedure name="Checkout">
+            <statement name="createOrder">
+                WITH new_order AS (
+                    INSERT INTO pedido (usuario_id, fecha) VALUES (?, CURRENT_TIMESTAMP) RETURNING id
+                )
+                INSERT INTO pedido_productos (pedido_id, producto_id) 
+                SELECT new_order.id, cp.producto_id 
+                FROM carrito_productos cp, new_order 
+                WHERE cp.carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?);
+            </statement>
+            <statement name="clearCart">
+                DELETE FROM carrito_productos WHERE carrito_id = (SELECT id FROM carrito WHERE usuario_id = ?)
+            </statement>
+        </procedure>
+        
+        <procedure name="RemoveFromCart">
+            <statement name="removeCartItem">
+                DELETE FROM carrito_productos WHERE carrito_id = ? AND producto_id = ?
+            </statement>
+        </procedure>
+        
+        <procedure name="SearchProduct">
+            <statement name="searchProducto">
+                SELECT id, name, price FROM producto WHERE id = ? LIMIT 1
+            </statement>
+        </procedure>
+        
+        <procedure name="ViewOrderHistory">
+            <statement name="getPedidos">
+                SELECT p.id AS pedido_id, p.fecha, pp.producto_id 
+                FROM pedido p 
+                JOIN pedido_productos pp ON p.id = pp.pedido_id 
+                WHERE p.usuario_id = ? 
+                ORDER BY p.fecha DESC
+            </statement>
+        </procedure>
+    </dialect>
+</dialects>
